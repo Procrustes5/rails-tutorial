@@ -1,0 +1,32 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - db/migrate/*
+    - db/schema.rb
+    - config/*
+    - config/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - bin/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be a Fixnum or
+  # a Float.
+  Max: 25
+
+ParenthesesAroundCondition:
+  AllowSafeAssignment: false
+
+AssignmentInCondition:
+  AllowSafeAssignment: false

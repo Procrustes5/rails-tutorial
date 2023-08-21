@@ -1,5 +1,5 @@
 require 'rails_helper'
- 
+
 RSpec.describe 'StaticPages', type: :request do
   let(:base_title) { 'Ruby on Rails Tutorial Sample App' }
 
@@ -10,7 +10,7 @@ RSpec.describe 'StaticPages', type: :request do
     end
     it 'Home | Ruby on Rails Tutorial Sample Appが含まれること' do
       get static_pages_home_path
-      expect(response.body).to include "Home | #{base_title}"
+      expect(response.body).to include "<title>#{base_title}</title>"
     end
   end
 
