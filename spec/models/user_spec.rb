@@ -69,6 +69,7 @@ RSpec.describe User, type: :model do
     user.password = user.password_confirmation = 'a' * 5
     expect(user).to_not be_valid
   end
+
   # describe 'POST /users #create' do
   #   it '無効な値だと登録されないこと' do
   #     expect {
@@ -79,13 +80,12 @@ RSpec.describe User, type: :model do
   #     }.to_not change(User, :count)
   #   end
   # end
-
 end
-RSpec.describe "Users", type: :system do
+RSpec.describe 'Users', type: :system do
   before do
     driven_by(:rack_test)
   end
-  
+
   describe '#create' do
     context '無効な値の場合' do
       it 'エラーメッセージ用の表示領域が描画されていること' do
@@ -95,10 +95,36 @@ RSpec.describe "Users", type: :system do
         fill_in 'Password', with: 'foo'
         fill_in 'Confirmation', with: 'bar'
         click_button 'Create my account'
-  
+
         expect(page).to have_selector 'div#error_explanation'
         expect(page).to have_selector 'div.field_with_errors'
       end
     end
   end
- end
+end
+RSpec.describe 'Users', type: :request do
+  context '有効な値の場合' do
+    let(:user_params) do
+      { user: { name: 'Example User',
+                email: 'user@example.com',
+                password: 'password',
+                password_confirmation: 'password' } }
+    end
+
+    it '登録されること' do
+      expect do
+        post users_path, params: user_params
+      end.to change(User, :count).by 1
+    end
+
+    it 'users/showにリダイレクトされること' do
+      post users_path, params: user_params
+      user = User.last
+      expect(response).to redirect_to user
+    end
+    it 'flashが表示されること' do
+      post users_path, params: user_params
+      expect(flash).to be_any
+    end
+  end
+end
