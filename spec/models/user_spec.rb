@@ -69,4 +69,36 @@ RSpec.describe User, type: :model do
     user.password = user.password_confirmation = 'a' * 5
     expect(user).to_not be_valid
   end
+  # describe 'POST /users #create' do
+  #   it '無効な値だと登録されないこと' do
+  #     expect {
+  #       post users_path, params: { user: { name: '',
+  #                                          email: 'user@invlid',
+  #                                          password: 'foo',
+  #                                          password_confirmation: 'bar' } }
+  #     }.to_not change(User, :count)
+  #   end
+  # end
+
 end
+RSpec.describe "Users", type: :system do
+  before do
+    driven_by(:rack_test)
+  end
+  
+  describe '#create' do
+    context '無効な値の場合' do
+      it 'エラーメッセージ用の表示領域が描画されていること' do
+        visit signup_path
+        fill_in 'Name', with: ''
+        fill_in 'Email', with: 'user@invlid'
+        fill_in 'Password', with: 'foo'
+        fill_in 'Confirmation', with: 'bar'
+        click_button 'Create my account'
+  
+        expect(page).to have_selector 'div#error_explanation'
+        expect(page).to have_selector 'div.field_with_errors'
+      end
+    end
+  end
+ end
