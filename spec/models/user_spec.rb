@@ -70,6 +70,12 @@ RSpec.describe User, type: :model do
     expect(user).to_not be_valid
   end
 
+  describe '#authenticated?' do
+    it 'digestがnilならfalseを返すこと' do
+      expect(user.authenticated?('')).to be_falsy
+    end
+  end
+
   # describe 'POST /users #create' do
   #   it '無効な値だと登録されないこと' do
   #     expect {
