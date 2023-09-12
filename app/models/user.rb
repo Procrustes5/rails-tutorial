@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint           not null, primary key
+#  name            :string           not null
+#  email           :string           not null
+#  password_digest :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  remember_digest :string
+#  admin           :boolean          default(FALSE), not null
+#
 class User < ApplicationRecord
   attr_accessor :remember_token
 
@@ -7,7 +20,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def self.digest(string)
     cost = if ActiveModel::SecurePassword.min_cost
