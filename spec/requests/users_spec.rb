@@ -160,11 +160,11 @@ RSpec.describe 'Users', type: :request do
         log_in user
         get users_path
       end
-     
+
       it 'div.paginationが存在すること' do
         expect(response.body).to include '<div class="pagination">'
       end
-    
+
       it 'ユーザごとのリンクが存在すること' do
         User.paginate(page: 1).each do |user|
           expect(response.body).to include "<a href=\"#{user_path(user)}\">"
@@ -174,12 +174,12 @@ RSpec.describe 'Users', type: :request do
   end
   describe 'PATCH /users' do
     let(:user) { FactoryBot.create(:user) }
-     
+
     it 'admin属性は更新できないこと' do
       # userはこの後adminユーザになるので違うユーザにしておく
-      log_in user = FactoryBot.create(:archer) 
+      log_in user = FactoryBot.create(:archer)
       expect(user).to_not be_admin
- 
+
       patch user_path(user), params: { user: { password: 'password',
                                                password_confirmation: 'password',
                                                admin: true } }
@@ -200,28 +200,28 @@ RSpec.describe 'Users', type: :request do
         end.to change(User, :count).by(-1)
       end
     end
-   
+
     context '未ログインの場合' do
       it '削除できないこと' do
-        expect {
+        expect do
           delete user_path(user)
-        }.to_not change(User, :count)
+        end.to_not change(User, :count)
       end
-   
+
       it 'ログインページにリダイレクトすること' do
         delete user_path(user)
         expect(response).to redirect_to login_path
       end
     end
-   
+
     context 'adminユーザでない場合' do
       it '削除できないこと' do
         log_in other_user
-        expect {
+        expect do
           delete user_path(user)
-        }.to_not change(User, :count)
+        end.to_not change(User, :count)
       end
-   
+
       it 'rootにリダイレクトすること' do
         log_in other_user
         delete user_path(user)
