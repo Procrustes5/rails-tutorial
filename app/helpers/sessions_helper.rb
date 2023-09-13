@@ -25,6 +25,13 @@ module SessionsHelper
     end
   end
 
+  def user_not_activated
+    message  = 'Account not activated. '
+    message += 'Check your email for the activation link.'
+    flash[:warning] = message
+    redirect_to root_url
+  end
+
   def forget(user)
     user.forget
     cookies.delete(:user_id)

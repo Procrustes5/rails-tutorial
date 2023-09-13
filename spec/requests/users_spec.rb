@@ -25,20 +25,16 @@ RSpec.describe 'Users', type: :request do
       end.to change(User, :count).by 1
     end
 
-    it 'users/showにリダイレクトされること' do
+    it 'homeにリダイレクトされること' do
       post users_path, params: user_params
-      user = User.last
-      expect(response).to redirect_to user
+      expect(response).to redirect_to root_path
     end
     it 'flashが表示されること' do
       post users_path, params: user_params
       expect(flash).to be_any
     end
-    it 'ログイン状態であること' do
-      post users_path, params: user_params
-      expect(logged_in?).to be(true)
-    end
   end
+
   describe 'get /users/{id}/edit' do
     let(:user) { FactoryBot.create(:user) }
 
@@ -149,6 +145,18 @@ RSpec.describe 'Users', type: :request do
       expect(response).to redirect_to login_path
     end
   end
+
+  describe 'show' do
+    it '有効化されていないユーザの場合はrootにリダイレクトすること' do
+      user = FactoryBot.create(:user)
+      not_activated_user = FactoryBot.create(:malory)
+
+      log_in user
+      get user_path(not_activated_user)
+      expect(response).to redirect_to root_path
+    end
+  end
+
   describe 'index' do
     let(:user) { FactoryBot.create(:user) }
 
@@ -169,6 +177,12 @@ RSpec.describe 'Users', type: :request do
         User.paginate(page: 1).each do |user|
           expect(response.body).to include "<a href=\"#{user_path(user)}\">"
         end
+      end
+      it 'activateされていないユーザは表示されないこと' do
+        not_activated_user = FactoryBot.create(:malory)
+        log_in user
+        get users_path
+        expect(response.body).to_not include not_activated_user.name
       end
     end
   end
