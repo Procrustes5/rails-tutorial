@@ -27,6 +27,9 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
+  scope :activated, -> { where(activated: true) }
+  scope :admin, -> { where(admin: true) }
+
   def self.digest(string)
     cost = if ActiveModel::SecurePassword.min_cost
              BCrypt::Engine::MIN_COST
@@ -42,7 +45,7 @@ class User < ApplicationRecord
 
   def remember
     self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
+    update(remember_digest: User.digest(remember_token))
   end
 
   def authenticated?(attribute, token)
@@ -53,11 +56,11 @@ class User < ApplicationRecord
   end
 
   def forget
-    update_attribute(:remember_digest, nil)
+    update(remember_digest: nil)
   end
 
   def activate
-    update_attributes(activated: true, activated_at: Time.zone.now)
+    update(activated: true, activated_at: Time.zone.now)
   end
 
   def send_activation_email

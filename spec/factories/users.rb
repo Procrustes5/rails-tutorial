@@ -20,26 +20,28 @@ FactoryBot.define do
     email { 'michael@example.com' }
     password { 'password' }
     password_confirmation { 'password' }
-    admin { true }
+    admin { false }
     activated { true }
     activated_at { Time.zone.now }
+
+    trait :admin do
+      email { 'admin@admin.com' }
+      admin { true }
+    end
+
+    trait :not_activated do
+      name { 'Sterling Arche' }
+      email { 'duchess@example.go' }
+      activated { false }
+      activated_at { nil }
+    end
+
+    trait :another do
+      name { 'Sterling Archer' }
+      email { 'duchess@example.gov' }
+    end
   end
-  factory :archer, class: User do
-    name { 'Sterling Archer' }
-    email { 'duchess@example.gov' }
-    password { 'password' }
-    password_confirmation { 'password' }
-    activated { true }
-    activated_at { Time.zone.now }
-  end
-  factory :malory, class: User do
-    name { 'Sterling' }
-    email { 'duchess@example.go' }
-    password { 'password' }
-    password_confirmation { 'password' }
-    activated { false }
-    activated_at { nil }
-  end
+
   factory :continuous_users, class: User do
     sequence(:name) { |n| "User #{n}" }
     sequence(:email) { |n| "user-#{n}@example.com" }

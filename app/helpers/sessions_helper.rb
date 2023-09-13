@@ -15,21 +15,14 @@ module SessionsHelper
 
   def current_user
     if session[:user_id]
-      @current_user ||= User.find_by(id: session[:user_id])
+      User.find_by(id: session[:user_id])
     elsif cookies.signed[:user_id]
       user = User.find_by(id: session[:user_id])
       if user&.authenticated?(:remember, cookies[:remember_token])
         log_in user
-        @current_user = user
+        user
       end
     end
-  end
-
-  def user_not_activated
-    message  = 'Account not activated. '
-    message += 'Check your email for the activation link.'
-    flash[:warning] = message
-    redirect_to root_url
   end
 
   def forget(user)
@@ -45,7 +38,7 @@ module SessionsHelper
   def log_out
     forget(current_user)
     session.delete(:user_id)
-    @current_user = nil
+    nil
   end
 
   def redirect_back_or(default)

@@ -63,7 +63,7 @@ RSpec.describe 'Users', type: :request do
     end
 
     context '別のユーザの場合' do
-      let(:other_user) { FactoryBot.create(:user, name: 'Sterling Archer', email: 'duchess@example.gov') }
+      let(:other_user) { FactoryBot.create(:user, :another) }
 
       it 'flashが空であること' do
         log_in user
@@ -121,7 +121,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
     context '別のユーザの場合' do
-      let(:other_user) { FactoryBot.create(:user, name: 'Sterling Archer', email: 'duchess@example.gov') }
+      let(:other_user) { FactoryBot.create(:user, :another) }
 
       before do
         log_in user
@@ -149,7 +149,7 @@ RSpec.describe 'Users', type: :request do
   describe 'show' do
     it '有効化されていないユーザの場合はrootにリダイレクトすること' do
       user = FactoryBot.create(:user)
-      not_activated_user = FactoryBot.create(:malory)
+      not_activated_user = FactoryBot.create(:user, :not_activated)
 
       log_in user
       get user_path(not_activated_user)
@@ -179,7 +179,7 @@ RSpec.describe 'Users', type: :request do
         end
       end
       it 'activateされていないユーザは表示されないこと' do
-        not_activated_user = FactoryBot.create(:malory)
+        not_activated_user = FactoryBot.create(:user, :not_activated)
         log_in user
         get users_path
         expect(response.body).to_not include not_activated_user.name
@@ -190,8 +190,7 @@ RSpec.describe 'Users', type: :request do
     let(:user) { FactoryBot.create(:user) }
 
     it 'admin属性は更新できないこと' do
-      # userはこの後adminユーザになるので違うユーザにしておく
-      log_in user = FactoryBot.create(:archer)
+      log_in user = FactoryBot.create(:user)
       expect(user).to_not be_admin
 
       patch user_path(user), params: { user: { password: 'password',
@@ -203,8 +202,8 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'DELETE /users/{id}' do
-    let!(:user) { FactoryBot.create(:user) }
-    let!(:other_user) { FactoryBot.create(:archer) }
+    let!(:user) { FactoryBot.create(:user, :admin) }
+    let!(:other_user) { FactoryBot.create(:user, :another) }
 
     context 'adminユーザでログイン済みの場合' do
       it '削除できること' do
