@@ -2,23 +2,22 @@
 #
 # Table name: users
 #
-#  id              :bigint           not null, primary key
-#  name            :string           not null
-#  email           :string           not null
-#  password_digest :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  remember_digest :string
-#  admin           :boolean          default(FALSE), not null
+#  id                :bigint           not null, primary key
+#  name              :string           not null
+#  email             :string           not null
+#  password_digest   :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  remember_digest   :string
+#  admin             :boolean          default(FALSE), not null
+#  activation_digest :string
+#  activated         :boolean          default(FALSE), not null
+#  activated_at      :datetime
 #
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) do
-    User.new(name: 'Example User', email: 'user@example.com',
-             password: 'foobar',
-             password_confirmation: 'foobar')
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   it 'userが有効であること' do
     expect(user).to be_valid
@@ -84,8 +83,8 @@ RSpec.describe User, type: :model do
   end
 
   describe '#authenticated?' do
-    it 'digestがnilならfalseを返すこと' do
-      expect(user.authenticated?('')).to be(false)
+    it 'remember_digestがnilならfalseを返すこと' do
+      expect(user.authenticated?('remember', nil)).to be(false)
     end
   end
 

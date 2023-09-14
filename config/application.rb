@@ -21,5 +21,7 @@ module AppName
         helper_specs: false,
         routing_specs: false
     end
+
+    config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
   end
 end
