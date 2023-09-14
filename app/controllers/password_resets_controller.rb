@@ -6,13 +6,9 @@ class PasswordResetsController < ApplicationController
     if @user
       @user.create_reset_digest
       @user.send_password_reset_email
-      # ここのコードの繰り返しを無くしたい
-      flash[:info] = "Email sent with password reset instructions"
-      redirect_to root_url
-    else
-      flash[:info] = "Email sent with password reset instructions"
-      redirect_to root_url
     end
+    flash[:info] = 'Email sent with password reset instructions'
+    redirect_to root_url
   end
 
   def edit; end
