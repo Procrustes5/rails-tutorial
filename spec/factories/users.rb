@@ -13,6 +13,8 @@
 #  activation_digest :string
 #  activated         :boolean          default(FALSE), not null
 #  activated_at      :datetime
+#  reset_digest      :string
+#  reset_sent_at     :datetime
 #
 FactoryBot.define do
   factory :user do

@@ -33,4 +33,31 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.body.encoded).to match(CGI.escape(user.email))
     end
   end
+  describe 'password_reset' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:mail) { UserMailer.password_reset(user) }
+
+    before do
+      user.reset_token = User.new_token
+    end
+    it '"Password reset"というタイトルで送信されること' do
+      expect(mail.subject).to eq('Password reset')
+    end
+
+    it '送信先が"michael@example.com"であること' do
+      expect(mail.to).to eq(['michael@example.com'])
+    end
+
+    it '送信元が"noreply@example.com"であること' do
+      expect(mail.from).to eq(['noreply@example.com'])
+    end
+
+    it 'メール本文にreset_tokenが表示されていること' do
+      expect(mail.body.encoded).to match(user.reset_token)
+    end
+
+    it 'メール本文にユーザのemailが表示されていること' do
+      expect(mail.body.encoded).to match(CGI.escape(user.email))
+    end
+  end
 end
