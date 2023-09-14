@@ -79,12 +79,10 @@ class User < ApplicationRecord
   end
 
   def password_reset_expired?
-    if reset_sent_at == nil
-      true
-    elsif reset_sent_at < 2.hours.ago
+    if reset_sent_at.nil?
       true
     else
-      false
+      reset_sent_at < 2.hours.ago
     end
   end
 
