@@ -1,4 +1,6 @@
-require: rubocop-rails
+require: 
+  - rubocop-rails
+  - rubocop-rails_deprecation
 
 inherit_from: .rubocop_todo.yml
 

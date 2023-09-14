@@ -224,6 +224,8 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
+    rubocop-rails_deprecation (0.6.0)
+      rubocop (>= 1.27)
     rubocop-rspec (2.24.0)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
@@ -310,6 +312,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rails
+  rubocop-rails_deprecation
   rubocop-rspec
   sass-rails (~> 5.0)
   selenium-webdriver
