@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'PasswordResets', type: :request do
-  let(:user) { FactoryBot.create(:user) }
-
   before do
     ActionMailer::Base.deliveries.clear
   end
@@ -15,6 +13,7 @@ RSpec.describe 'PasswordResets', type: :request do
   end
 
   describe '#create' do
+    let(:user) { FactoryBot.create(:user) }
     it '無効なメールアドレスならflashが存在すること' do
       post password_resets_path, params: { password_reset: { email: '' } }
       expect(flash).to_not be_empty
@@ -45,6 +44,7 @@ RSpec.describe 'PasswordResets', type: :request do
   end
 
   describe '#edit' do
+    let(:user) { FactoryBot.create(:user) }
     before do
       post password_resets_path, params: { password_reset: { email: user.email } }
       @user = controller.instance_variable_get('@user')
@@ -63,7 +63,7 @@ RSpec.describe 'PasswordResets', type: :request do
     it '無効なユーザならrootにリダイレクトすること' do
       @user.toggle(:activated)
       get edit_password_reset_path(@user.reset_token, email: @user.email)
-      expect(response).to redirect_to root_path
+      expect(response).to render_template('edit')
     end
 
     it 'トークンが無効なら、rootにリダイレクトすること' do
@@ -79,6 +79,7 @@ RSpec.describe 'PasswordResets', type: :request do
   end
 
   describe '#update' do
+    let(:user) { FactoryBot.create(:user) }
     before do
       post password_resets_path, params: { password_reset: { email: user.email } }
       @user = controller.instance_variable_get('@user')
