@@ -78,6 +78,16 @@ class User < ApplicationRecord
     update(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
   end
 
+  def password_reset_expired?
+    if reset_sent_at == nil
+      true
+    elsif reset_sent_at < 2.hours.ago
+      true
+    else
+      false
+    end
+  end
+
   private
 
   def downcase_email
