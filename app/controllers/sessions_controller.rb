@@ -3,9 +3,8 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    if user.nil?
-      return render "new"
-    end
+    return render 'new' if user.nil?
+
     if user.activated?
       log_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)

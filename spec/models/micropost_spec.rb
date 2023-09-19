@@ -13,7 +13,7 @@ require 'rails_helper'
 
 RSpec.describe Micropost, type: :model do
   let(:micropost) { FactoryBot.create(:micropost) }
-  let(:recent_post) { FactoryBot.create(:micropost, :recent_post)}
+  let(:recent_post) { FactoryBot.create(:micropost, :recent_post) }
 
   it '有効であること' do
     expect(micropost).to be_valid
@@ -32,12 +32,12 @@ RSpec.describe Micropost, type: :model do
   it 'ユーザーを破棄するとポストも破棄する' do
     post = FactoryBot.create(:micropost, :recent_post)
     user = post.user
-    expect {
+    expect do
       user.destroy
-    }.to change(Micropost, :count).by(-1)
-  end 
+    end.to change(Micropost, :count).by(-1)
+  end
 
-  describe "content" do
+  describe 'content' do
     it '内容が空なら無効であること' do
       micropost.content = '    '
       expect(micropost).to_not be_valid
@@ -48,6 +48,4 @@ RSpec.describe Micropost, type: :model do
       expect(micropost).to_not be_valid
     end
   end
-
-
 end

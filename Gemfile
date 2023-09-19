@@ -13,8 +13,8 @@ gem 'carrierwave',             '1.2.2'
 gem 'mini_magick',             '4.7.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
 gem 'fog', '1.42'
+gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

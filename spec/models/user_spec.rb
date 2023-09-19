@@ -89,5 +89,4 @@ RSpec.describe User, type: :model do
       expect(user.authenticated?('remember', nil)).to be(false)
     end
   end
-
 end

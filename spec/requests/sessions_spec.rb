@@ -26,15 +26,13 @@ RSpec.describe 'Sessions', type: :request do
     end
   end
   describe '#create' do
-    
     it 'ユーザーがゼロの場合エラー画面を出さない' do
-      expect(User.exists?(email: "aaa@example.com")).to be(false)
-      post login_path, params: { session: { email: "aaa@example.com",
-        password: "foobar" } }
+      expect(User.exists?(email: 'aaa@example.com')).to be(false)
+      post login_path, params: { session: { email: 'aaa@example.com',
+                                            password: 'foobar' } }
       expect(response).to render_template(:new)
     end
 
-    
     describe 'remember me' do
       let(:user) { FactoryBot.create(:user) }
       it 'ONの場合はcookies[:remember_token]が空でないこと' do
