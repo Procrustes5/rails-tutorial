@@ -7,6 +7,7 @@
 #  user_id    :bigint
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  picture    :string
 #
 FactoryBot.define do
   factory :micropost, class: Micropost do
