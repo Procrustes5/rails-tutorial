@@ -29,3 +29,6 @@
 .DS_Store
 
 /app/assets/images
+
+# アップロードされたテスト画像を無視する
+/public/uploads
