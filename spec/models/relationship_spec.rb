@@ -35,6 +35,7 @@ RSpec.describe Relationship, type: :model do
     expect(user.following?(unrelated_user)).to be(false)
     user.follow(unrelated_user)
     expect(user.following?(unrelated_user)).to be(true)
+    expect(unrelated_user.followers.include?(user)).to be(true)
     user.unfollow(unrelated_user)
     expect(user.following?(unrelated_user)).to be(false)
   end
