@@ -30,4 +30,12 @@ RSpec.describe Relationship, type: :model do
     @relationship.followed_id = nil
     expect(@relationship).to_not be_valid
   end
+  let(:unrelated_user) { FactoryBot.create(:user, :unrelated) }
+  it "followとunfollowができること" do
+    expect(user.following?(unrelated_user)).to be(false)
+    user.follow(unrelated_user)
+    expect(user.following?(unrelated_user)).to be(true)
+    user.unfollow(unrelated_user)
+    expect(user.following?(unrelated_user)).to be(false)
+  end
 end
