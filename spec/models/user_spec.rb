@@ -97,23 +97,23 @@ RSpec.describe User, type: :model do
     let(:user) { FactoryBot.create(:user) }
     let(:following_user) { FactoryBot.create(:user, :another) }
     let(:unrelated_user) { FactoryBot.create(:user, :unrelated) }
-   
+
     before do
       user.follow(following_user)
     end
-   
+
     it 'フォローしているユーザの投稿が表示されること' do
       following_user.microposts.each do |post_following|
         expect(user.feed.include?(post_following)).to be(true)
       end
     end
-   
+
     it '自分自身の投稿が表示されること' do
       user.microposts.each do |post_self|
         expect(user.feed.include?(post_self)).to be(true)
       end
     end
-   
+
     it 'フォローしていないユーザの投稿は表示されないこと' do
       unrelated_user.microposts.each do |post_unfollowed|
         expect(user.feed.include?(post_unfollowed)).to be(false)

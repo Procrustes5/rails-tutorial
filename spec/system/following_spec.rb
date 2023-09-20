@@ -1,12 +1,12 @@
 require 'rails_helper'
- 
-RSpec.describe "Following", type: :system do
+
+RSpec.describe 'Following', type: :system do
   before do
     driven_by(:rack_test)
     @user = FactoryBot.send(:create_relationships)
     log_in @user
   end
- 
+
   describe 'following and followers' do
     it 'followingの数とフォローしているユーザへのリンクが表示されていること' do
       visit following_user_path(@user)
@@ -17,7 +17,7 @@ RSpec.describe "Following", type: :system do
       end
     end
   end
- 
+
   describe 'followers' do
     it 'followersの数とフォローしているユーザへのリンクが表示されていること' do
       visit followers_user_path(@user)

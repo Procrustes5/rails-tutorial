@@ -34,7 +34,6 @@ FactoryBot.define do
       content { 'Posted by Unrelated User' }
       created_at { Time.zone.now }
     end
-
   end
 end
 

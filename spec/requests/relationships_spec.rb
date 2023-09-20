@@ -1,21 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe "Relationships", type: :request do
+RSpec.describe 'Relationships', type: :request do
   describe '#create' do
     let(:user) { FactoryBot.create(:user) }
     let(:other) { FactoryBot.create(:user, :another) }
     it '1件増えること' do
       log_in user
-      expect {
+      expect do
         post relationships_path, params: { followed_id: other.id }
-      }.to change(Relationship, :count).by 1
+      end.to change(Relationship, :count).by 1
     end
-     
+
     it 'Ajaxでも登録できること' do
       log_in user
-      expect {
+      expect do
         post relationships_path, params: { followed_id: other.id }, xhr: true
-      }.to change(Relationship, :count).by 1
+      end.to change(Relationship, :count).by 1
     end
 
     context '未ログインの場合' do
@@ -23,11 +23,11 @@ RSpec.describe "Relationships", type: :request do
         post relationships_path
         expect(response).to redirect_to login_path
       end
- 
+
       it '登録されないこと' do
-        expect {
+        expect do
           post relationships_path
-        }.to_not change(Relationship, :count)
+        end.to_not change(Relationship, :count)
       end
     end
   end
@@ -38,18 +38,18 @@ RSpec.describe "Relationships", type: :request do
       log_in user
       user.follow(other)
       relationship = user.active_relationships.find_by(followed_id: other.id)
-      expect {
+      expect do
         delete relationship_path(relationship)
-      }.to change(Relationship, :count).by(-1)
+      end.to change(Relationship, :count).by(-1)
     end
-   
+
     it 'Ajaxでも削除できること' do
       log_in user
       user.follow(other)
       relationship = user.active_relationships.find_by(followed_id: other.id)
-      expect {
+      expect do
         delete relationship_path(relationship), xhr: true
-      }.to change(Relationship, :count).by(-1)
+      end.to change(Relationship, :count).by(-1)
     end
   end
 end

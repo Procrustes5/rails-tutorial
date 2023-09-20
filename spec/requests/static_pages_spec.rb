@@ -23,7 +23,7 @@ RSpec.describe 'StaticPages', type: :system do
       log_in user
       expect(page).to have_content '10 following'
       expect(page).to have_content '10 followers'
- 
+
       visit user_path(user)
       expect(page).to have_content '10 following'
       expect(page).to have_content '10 followers'
