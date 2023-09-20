@@ -3,8 +3,8 @@
 # Table name: microposts
 #
 #  id         :bigint           not null, primary key
-#  content    :text
-#  user_id    :bigint
+#  content    :text             not null
+#  user_id    :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  picture    :string
@@ -12,12 +12,15 @@
 require 'rails_helper'
 
 RSpec.describe Micropost, type: :model do
-  let(:micropost) { FactoryBot.create(:micropost) }
-  let(:recent_post) { FactoryBot.create(:micropost, :recent_post) }
-
   it '有効であること' do
+    micropost = Micropost.new
+    micropost.user = User.first
+    micropost.content = '1234'
     expect(micropost).to be_valid
   end
+
+  let(:micropost) { FactoryBot.create(:micropost) }
+  let(:recent_post) { FactoryBot.create(:micropost, :recent_post) }
 
   it 'user_idが存在する' do
     micropost.user_id = nil
