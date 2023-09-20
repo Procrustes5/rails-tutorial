@@ -23,5 +23,6 @@ module AppName
     end
 
     config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+    config.action_view.embed_authenticity_token_in_remote_forms = true
   end
 end
