@@ -89,15 +89,4 @@ RSpec.describe User, type: :model do
       expect(user.authenticated?('remember', nil)).to be(false)
     end
   end
-
-  # describe 'POST /users #create' do
-  #   it '無効な値だと登録されないこと' do
-  #     expect {
-  #       post users_path, params: { user: { name: '',
-  #                                          email: 'user@invlid',
-  #                                          password: 'foo',
-  #                                          password_confirmation: 'bar' } }
-  #     }.to_not change(User, :count)
-  #   end
-  # end
 end

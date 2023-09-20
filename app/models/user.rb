@@ -17,6 +17,7 @@
 #  reset_sent_at     :datetime
 #
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save   :downcase_email
@@ -79,11 +80,13 @@ class User < ApplicationRecord
   end
 
   def password_reset_expired?
-    if reset_sent_at.nil?
-      true
-    else
-      reset_sent_at < 2.hours.ago
-    end
+    return true if reset_sent_at.nil?
+
+    reset_sent_at < 2.hours.ago
+  end
+
+  def feeds
+    Micropost.where(user_id: id)
   end
 
   private
