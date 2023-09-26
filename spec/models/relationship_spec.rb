@@ -33,10 +33,10 @@ RSpec.describe Relationship, type: :model do
   let(:unrelated_user) { FactoryBot.create(:user, :unrelated) }
   it 'followとunfollowができること' do
     expect(user.following?(unrelated_user)).to be(false)
-    user.follow(unrelated_user)
+    user.follow!(unrelated_user)
     expect(user.following?(unrelated_user)).to be(true)
     expect(unrelated_user.followers.include?(user)).to be(true)
-    user.unfollow(unrelated_user)
+    user.unfollow!(unrelated_user)
     expect(user.following?(unrelated_user)).to be(false)
   end
 end

@@ -99,7 +99,7 @@ RSpec.describe User, type: :model do
     let(:unrelated_user) { FactoryBot.create(:user, :unrelated) }
 
     before do
-      user.follow(following_user)
+      user.follow!(following_user)
     end
 
     it 'フォローしているユーザの投稿が表示されること' do

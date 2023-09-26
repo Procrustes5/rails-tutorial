@@ -18,12 +18,18 @@ class PasswordResetsController < ApplicationController
   def edit; end
 
   def update
-    if @user.update(user_params)
+    if params[:user][:password].empty?
+      @user.errors.add(:password, :blank)
+      render 'edit'
+    elsif @user.update(user_params)
       log_in @user
       @user.update(reset_digest: nil)
+      flash[:success] = 'Password has been reset.'
+      redirect_to @user
+    else
+      flash.now[:error] = 'There is some problem, Please try again'
+      render 'edit'
     end
-    handle_message
-    handle_path
   end
 
   private
@@ -47,25 +53,5 @@ class PasswordResetsController < ApplicationController
 
     flash[:danger] = 'Password reset has expired.'
     redirect_to new_password_reset_url
-  end
-
-  def handle_message
-    if params[:user][:password].empty?
-      @user.errors.add(:password, :blank)
-    elsif @user.update(user_params)
-      flash[:success] = 'Password has been reset.'
-    else
-      flash.now[:error] = 'There is some problem, Please try again'
-    end
-  end
-
-  def handle_path
-    if params[:user][:password].empty?
-      render 'edit'
-    elsif @user.update(user_params)
-      redirect_to @user
-    else
-      render 'edit'
-    end
   end
 end

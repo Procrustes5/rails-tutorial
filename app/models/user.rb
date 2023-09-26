@@ -96,17 +96,16 @@ class User < ApplicationRecord
   end
 
   def feeds
-    following_ids = "SELECT followed_id FROM relationships
-                     WHERE follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids})
-                     OR user_id = :user_id", user_id: id)
+    follower_ids = Relationship.where(follower_id: id).pluck(:followed_id)
+
+    Micropost.where(user_id: [id, *follower_ids])
   end
 
-  def follow(other_user)
+  def follow!(other_user)
     following << other_user
   end
 
-  def unfollow(other_user)
+  def unfollow!(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
   end
 

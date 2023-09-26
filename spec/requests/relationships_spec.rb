@@ -36,7 +36,7 @@ RSpec.describe 'Relationships', type: :request do
     let(:other) { FactoryBot.create(:user, :another) }
     it '1件減ること' do
       log_in user
-      user.follow(other)
+      user.follow!(other)
       relationship = user.active_relationships.find_by(followed_id: other.id)
       expect do
         delete relationship_path(relationship)
@@ -45,7 +45,7 @@ RSpec.describe 'Relationships', type: :request do
 
     it 'Ajaxでも削除できること' do
       log_in user
-      user.follow(other)
+      user.follow!(other)
       relationship = user.active_relationships.find_by(followed_id: other.id)
       expect do
         delete relationship_path(relationship), xhr: true
