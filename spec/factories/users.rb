@@ -42,6 +42,11 @@ FactoryBot.define do
       name { 'Sterling Archer' }
       email { 'duchess@example.gov' }
     end
+
+    trait :unrelated do
+      name { 'Sterling Arch' }
+      email { 'duchess@example.com' }
+    end
   end
 
   factory :continuous_users, class: User do

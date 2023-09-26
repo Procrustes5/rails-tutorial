@@ -19,6 +19,21 @@ FactoryBot.define do
       content { 'I create this now' }
       created_at { Time.zone.now }
     end
+
+    trait :post_by_user do
+      content { 'Posted by User' }
+      created_at { Time.zone.now }
+    end
+
+    trait :post_by_following_user do
+      content { 'Posted by Following User' }
+      created_at { Time.zone.now }
+    end
+
+    trait :post_by_unrelated_user do
+      content { 'Posted by Unrelated User' }
+      created_at { Time.zone.now }
+    end
   end
 end
 
