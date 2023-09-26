@@ -21,6 +21,5 @@ def create_relationships
       FactoryBot.create(:follower, follower_id: other.id, followed_id: user.id)
       FactoryBot.create(:following, follower_id: user.id, followed_id: other.id)
     end
-    user
   end
 end
