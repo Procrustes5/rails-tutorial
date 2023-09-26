@@ -22,7 +22,8 @@ class PasswordResetsController < ApplicationController
       log_in @user
       @user.update(reset_digest: nil)
     end
-    update_message_and_path
+    handle_message
+    handle_path
   end
 
   private
@@ -48,15 +49,22 @@ class PasswordResetsController < ApplicationController
     redirect_to new_password_reset_url
   end
 
-  def update_message_and_path
+  def handle_message
     if params[:user][:password].empty?
       @user.errors.add(:password, :blank)
-      render 'edit'
     elsif @user.update(user_params)
       flash[:success] = 'Password has been reset.'
-      redirect_to @user
     else
       flash.now[:error] = 'There is some problem, Please try again'
+    end
+  end
+
+  def handle_path
+    if params[:user][:password].empty?
+      render 'edit'
+    elsif @user.update(user_params)
+      redirect_to @user
+    else
       render 'edit'
     end
   end

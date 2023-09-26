@@ -18,11 +18,15 @@ module SessionsHelper
       User.find_by(id: session[:user_id])
     elsif cookies.signed[:user_id]
       user = User.find_by(id: session[:user_id])
-      if user&.authenticated?(:remember, cookies[:remember_token])
-        log_in user
-        user
-      end
+      handle_authenticated(user)
     end
+  end
+
+  def handle_authenticated(user)
+    return unless user&.authenticated?(:remember, cookies[:remember_token])
+
+    log_in user
+    user
   end
 
   def forget(user)
